@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>万博ライブカメラ セット切替</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    .controls {
+      text-align: center;
+      padding: 10px;
+      background: #eee;
+    }
+    .controls button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+    }
+    .grid4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      width: 100vw;
+      height: calc(100vh - 50px);
+    }
+    .grid4 iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <button onclick="showSet('set1')">カメラセット1</button>
+    <button onclick="showSet('set2')">カメラセット2</button>
+  </div>
+
+  <div id="set1" class="grid4">
+    <iframe src="https://www.youtube.com/embed/RBAGwQr4LAg?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1" allowfullscreen></iframe>
+  </div>
+
+  <div id="set2" class="grid4" style="display: none;">
+    <iframe src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1" allow="autoplay" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    function showSet(id) {
+      document.getElementById('set1').style.display = (id === 'set1') ? 'grid' : 'none';
+      document.getElementById('set2').style.display = (id === 'set2') ? 'grid' : 'none';
+    }
+  </script>
+</body>
+</html>
