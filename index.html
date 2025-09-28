@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>万博ライブカメラ4画面</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    .grid4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      height: 100vh;
+    }
+    .grid4 iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid4">
+    <iframe src="https://www.youtube.com/embed/RBAGwQr4LAg?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1" allowfullscreen></iframe>
+  </div>
+</body>
+</html>
