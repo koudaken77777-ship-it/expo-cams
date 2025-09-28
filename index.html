@@ -3,7 +3,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>万博ライブカメラ セット切替（修正版）</title>
+  <title>万博ライブカメラ セット切替（モーダル表示対応）</title>
   <style>
     * { box-sizing: border-box; }
     html, body {
@@ -43,10 +43,31 @@
       background: #222;
       color: white;
       font-size: 1.2rem;
+      position: relative;
     }
-    .linkbox a {
-      color: #0bf;
-      text-decoration: underline;
+    .linkbox button {
+      font-size: 1rem;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .mini-player {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: none;
+      z-index: 1;
+    }
+    .close-btn {
+      position: absolute;
+      top: 4px;
+      right: 8px;
+      background: #f00;
+      color: white;
+      border: none;
+      font-size: 0.9rem;
+      padding: 2px 6px;
+      cursor: pointer;
+      z-index: 2;
     }
   </style>
 </head>
@@ -72,8 +93,12 @@
   </div>
 
   <div id="set3" class="grid4">
-    <div class="linkbox"><a href="https://www.youtube.com/watch?v=_HibfhLWSlQ" target="_blank">▶ カメラI（YouTubeで再生）</a></div>
-    <div class="linkbox"><a href="https://www.youtube.com/watch?v=8zqs6T64bhE" target="_blank">▶ カメラJ（YouTubeで再生）</a></div>
+    <div class="linkbox" id="i-box">
+      <button onclick="playModal('i-box','_HibfhLWSlQ')">▶ カメラI を再生</button>
+    </div>
+    <div class="linkbox" id="j-box">
+      <button onclick="playModal('j-box','8zqs6T64bhE')">▶ カメラJ を再生</button>
+    </div>
     <iframe src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&mute=1" allowfullscreen></iframe>
     <iframe src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&mute=1" allowfullscreen></iframe>
   </div>
@@ -82,6 +107,21 @@
     function showSet(id) {
       document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
       document.getElementById(id).classList.add('active');
+    }
+
+    function playModal(containerId, videoId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = `
+        <button class="close-btn" onclick="closeModal('${containerId}')">✖</button>
+        <iframe class="mini-player" src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0" allowfullscreen></iframe>
+      `;
+    }
+
+    function closeModal(containerId) {
+      const container = document.getElementById(containerId);
+      const buttonLabel = containerId === 'i-box' ? 'カメラI' : 'カメラJ';
+      const videoId = containerId === 'i-box' ? '_HibfhLWSlQ' : '8zqs6T64bhE';
+      container.innerHTML = `<button onclick="playModal('${containerId}','${videoId}')">▶ ${buttonLabel} を再生</button>`;
     }
   </script>
 </body>
