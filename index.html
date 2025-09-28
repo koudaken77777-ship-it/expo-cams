@@ -19,16 +19,19 @@
       background: #eee;
     }
     .controls button {
-      margin: 0 10px;
-      padding: 10px 20px;
+      margin: 0 5px;
+      padding: 8px 16px;
       font-size: 1rem;
     }
     .grid4 {
-      display: grid;
+      display: none;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
       width: 100vw;
       height: calc(100vh - 50px);
+    }
+    .grid4.active {
+      display: grid;
     }
     .grid4 iframe {
       width: 100%;
@@ -41,26 +44,34 @@
   <div class="controls">
     <button onclick="showSet('set1')">カメラセット1</button>
     <button onclick="showSet('set2')">カメラセット2</button>
+    <button onclick="showSet('set3')">カメラセット3</button>
   </div>
 
-  <div id="set1" class="grid4">
+  <div id="set1" class="grid4 active">
     <iframe src="https://www.youtube.com/embed/RBAGwQr4LAg?autoplay=1&mute=1" allowfullscreen></iframe>
     <iframe src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1" allowfullscreen></iframe>
     <iframe src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&mute=1" allowfullscreen></iframe>
     <iframe src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1" allowfullscreen></iframe>
   </div>
 
-  <div id="set2" class="grid4" style="display: none;">
+  <div id="set2" class="grid4">
     <iframe src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1" allow="autoplay" allowfullscreen></iframe>
     <iframe src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1" allowfullscreen></iframe>
     <iframe src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1" allowfullscreen></iframe>
     <iframe src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1" allowfullscreen></iframe>
   </div>
 
+  <div id="set3" class="grid4">
+    <iframe src="https://www.youtube.com/embed/_HibfhLWSlQ?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/8zqs6T64bhE?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&mute=1" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&mute=1" allowfullscreen></iframe>
+  </div>
+
   <script>
     function showSet(id) {
-      document.getElementById('set1').style.display = (id === 'set1') ? 'grid' : 'none';
-      document.getElementById('set2').style.display = (id === 'set2') ? 'grid' : 'none';
+      document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
     }
   </script>
 </body>
