@@ -84,5 +84,32 @@
       document.getElementById(id).classList.add('active');
     }
   </script>
+
+<div id="clock" style="
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: monospace;
+  z-index: 9999;
+"></div>
+
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
+
 </body>
 </html>
