@@ -1,6 +1,4 @@
-
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
 <meta charset="utf-8"/>
@@ -24,26 +22,19 @@
       font-size: 1rem;
     }
     .grid4 {
-      display: none;
+      display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
       width: 100vw;
       height: calc(100vh - 50px);
+      background: #000;
     }
-    .grid4.active {
-      display: grid;
-    }
-    .grid4 iframe,
-    .grid4 .linkbox {
+    .grid4 iframe {
       width: 100%;
       height: 100%;
       border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #222;
-      color: white;
-      font-size: 1.2rem;
+      display: block;
+      object-fit: cover;
     }
     .linkbox a {
       color: #0bf;
@@ -59,29 +50,35 @@
 <button onclick="showSet('set1')">カメラセット1</button>
 <button onclick="showSet('set2')">カメラセット2</button>
 <button onclick="showSet('set3')">カメラセット3</button>
-<span id="clock" style="margin-left: 20px; font-weight: bold; font-family: monospace; font-size: 1.2rem;">⏰ 00:00:00</span></div>
+<span id="clock" style="margin-left: 20px; font-weight: bold; font-family: monospace;">⏰ 00:00:00</span></div>
+
 <div class="grid4 active" id="set1">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&amp;mute=0"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/3KiiDPUUlls?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/knR19va6ZCI?autoplay=1&amp;mute=1"></iframe> </div>
+<iframe allowfullscreen src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=0"></iframe>
+<iframe allowfullscreen src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1"></iframe>
+<iframe allowfullscreen src="https://www.youtube.com/embed/3KiiDPUUlls?autoplay=1&mute=1"></iframe>
+<iframe allowfullscreen src="https://www.youtube.com/embed/knR19va6ZCI?autoplay=1&mute=1"></iframe>
+</div>
+
 <div class="grid4" id="set2">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&amp;mute=1"></iframe> </div>
+<iframe allowfullscreen src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1"></iframe>
+<iframe allowfullscreen src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1"></iframe>
+<iframe allowfullscreen src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&mute=1"></iframe>
+<iframe allowfullscreen src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&mute=1"></iframe>
+</div>
+
 <div class="grid4" id="set3">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&amp;mute=1"></iframe> </div>
+<iframe allowfullscreen src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&mute=1"></iframe>
+<iframe allowfullscreen src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&mute=1"></iframe>
+<iframe allowfullscreen src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=1"></iframe>
+<iframe allowfullscreen src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1"></iframe>
+</div>
+
 <script>
-    function showSet(id) {
-      document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-  </script>
-<script>
+function showSet(id) {
+  document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
 function updateClock() {
   const now = new Date();
   const yyyy = now.getFullYear();
@@ -94,5 +91,6 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock();
-</script></body>
+</script>
+</body>
 </html>
