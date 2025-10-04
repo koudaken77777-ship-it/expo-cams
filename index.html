@@ -10,6 +10,7 @@
       padding: 0;
       height: 100%;
       font-family: sans-serif;
+      background: #000;
     }
     .controls {
       text-align: center;
@@ -29,6 +30,7 @@
       width: 100vw;
       height: calc(100vh - 50px);
       background: #000;
+      overflow: hidden;
     }
     .grid4.active {
       display: grid;
@@ -39,13 +41,8 @@
       border: none;
       display: block;
       object-fit: cover;
-    }
-    .linkbox a {
-      color: #0bf;
-      text-decoration: none;
-      background: #111;
-      padding: 10px 20px;
-      border-radius: 6px;
+      aspect-ratio: 16 / 9;
+      transform: scaleX(1.08); /* 中央の黒帯を消す */
     }
 </style>
 </head>
