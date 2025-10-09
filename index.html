@@ -4,8 +4,16 @@
 <meta charset="utf-8"/>
 <title>万博ライブカメラ セット切替（TVモードリンク対応）</title>
 <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    
       margin: 0;
       padding: 0;
       height: 100%;
@@ -13,10 +21,10 @@
     }
     .controls {
       height: 60px;
-      line-height: 60px;
-      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: #eee;
-      text-align: center;
       overflow: hidden;
       text-align: center;
       padding: 10px;
@@ -30,14 +38,15 @@
     }
     .grid4 {
       display: none;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 50vw 50vw;
       grid-template-rows: 1fr 1fr;
       width: 100vw;
       height: calc(100vh - 60px);
       background: #000;
       gap: 0;
+      margin: 0;
       display: none;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 50vw 50vw;
       grid-template-rows: 1fr 1fr;
       width: 100vw;
       height: calc(100vh - 50px);
