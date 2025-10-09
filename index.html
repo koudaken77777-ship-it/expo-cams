@@ -3,7 +3,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"/>
-<title>万博ライブカメラ 絶対配置レイアウト</title>
+<title>万博ライブカメラ ズームレイアウト</title>
 <style>
   * {
     box-sizing: border-box;
@@ -34,6 +34,9 @@
     width: 50vw;
     height: 50%;
     border: none;
+    object-fit: cover;
+    transform: scale(1.05); /* 少し拡大表示で隙間をカット */
+    transform-origin: center center;
   }
   .cam1 { top: 0; left: 0; }
   .cam2 { top: 0; left: 50vw; }
