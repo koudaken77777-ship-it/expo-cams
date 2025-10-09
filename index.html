@@ -10,7 +10,6 @@
       padding: 0;
       height: 100%;
       font-family: sans-serif;
-      background: #000;
     }
     .controls {
       text-align: center;
@@ -30,7 +29,6 @@
       width: 100vw;
       height: calc(100vh - 50px);
       background: #000;
-      overflow: hidden;
     }
     .grid4.active {
       display: grid;
@@ -41,8 +39,13 @@
       border: none;
       display: block;
       object-fit: cover;
-      aspect-ratio: 16 / 9;
-      transform: scaleX(1.08); /* 中央の黒帯を消す */
+    }
+    .linkbox a {
+      color: #0bf;
+      text-decoration: none;
+      background: #111;
+      padding: 10px 20px;
+      border-radius: 6px;
     }
 </style>
 </head>
@@ -51,7 +54,7 @@
   <button onclick="showSet('set1')">カメラセット1</button>
   <button onclick="showSet('set2')">カメラセット2</button>
   <button onclick="showSet('set3')">カメラセット3</button>
-  <span id="clock" style="margin-left: 20px; font-weight: bold; font-family: monospace;">⏰ 00:00:00</span>
+  <span id="clock" style="margin-left: 20px; font-weight: bold; font-family: monospace; font-size: 48px;">⏰ 00:00:00</span>
 </div>
 
 <div class="grid4 active" id="set1">
