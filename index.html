@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"/>
-<title>万博ライブカメラ セット切替（TVモードリンク対応）</title>
+<title>万博ライブカメラ セット切替（黒帯除去版）</title>
 <style>
     * {
       box-sizing: border-box;
@@ -13,6 +13,7 @@
       height: 100%;
       font-family: sans-serif;
       background: #000;
+      overflow: hidden;
     }
     .controls {
       height: 60px;
@@ -40,6 +41,7 @@
       width: 100vw;
       height: calc(100vh - 60px);
       background: #000;
+      overflow: hidden;
     }
     .grid4.active {
       display: grid;
@@ -49,13 +51,15 @@
       height: 100%;
       border: none;
       display: block;
-      object-fit: fill; /* 黒帯をなくす設定 */
+      object-fit: cover;
+      transform: scale(1.03); /* 少し拡大して縦線を消す */
+      overflow: hidden;
     }
     #clock {
       margin-left: 20px;
       font-weight: bold;
       font-family: monospace;
-      font-size: 36px; /* サイズを拡大 */
+      font-size: 36px;
     }
 </style>
 </head>
