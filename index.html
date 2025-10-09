@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -53,7 +54,6 @@
     object-fit: cover;
     transform: scale(1.03);
   }
-  /* 配置位置を中央で0.5px重ねる */
   .grid4 iframe:nth-child(1) { top: 0; left: 0; }
   .grid4 iframe:nth-child(2) { top: 0; left: calc(50vw - 0.5px); }
   .grid4 iframe:nth-child(3) { top: calc(50vh - 0.5px); left: 0; }
@@ -72,31 +72,36 @@
   <button onclick="showSet('set1')">カメラセット1</button>
   <button onclick="showSet('set2')">カメラセット2</button>
   <button onclick="showSet('set3')">カメラセット3</button>
+  <button id="toggleButton" onclick="toggleAutoSwitch()">自動切替：OFF</button>
   <span id="clock">📅 0000/00/00 ⏰ 00:00:00</span>
 </div>
 
 <div class="grid4 active" id="set1">
-  <iframe allowfullscreen src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=0"></iframe>
-  <iframe allowfullscreen src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1"></iframe>
-  <iframe allowfullscreen src="https://www.youtube.com/embed/3KiiDPUUlls?autoplay=1&mute=1"></iframe>
-  <iframe allowfullscreen src="https://www.youtube.com/embed/knR19va6ZCI?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=0"></iframe>
+  <iframe src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&mute=1"></iframe>
 </div>
 
 <div class="grid4" id="set2">
-  <iframe allowfullscreen src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1"></iframe>
-  <iframe allowfullscreen src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1"></iframe>
-  <iframe allowfullscreen src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&mute=1"></iframe>
-  <iframe allowfullscreen src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&mute=1"></iframe>
 </div>
 
 <div class="grid4" id="set3">
-  <iframe allowfullscreen src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&mute=1"></iframe>
-  <iframe allowfullscreen src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&mute=1"></iframe>
-  <iframe allowfullscreen src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=1"></iframe>
-  <iframe allowfullscreen src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=1"></iframe>
+  <iframe src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1"></iframe>
 </div>
 
 <script>
+  let currentSet = 1;
+  let autoSwitch = false;
+  let switchInterval;
+
   function showSet(id) {
     document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -112,6 +117,22 @@
     const s = String(now.getSeconds()).padStart(2, '0');
     document.getElementById('clock').textContent = `📅 ${yyyy}/${mm}/${dd} ⏰ ${h}:${m}:${s}`;
   }
+
+  function toggleAutoSwitch() {
+    autoSwitch = !autoSwitch;
+    const button = document.getElementById('toggleButton');
+    button.textContent = autoSwitch ? '自動切替：ON' : '自動切替：OFF';
+
+    if (autoSwitch) {
+      switchInterval = setInterval(() => {
+        currentSet = currentSet === 1 ? 2 : 1;
+        showSet(`set${currentSet}`);
+      }, 300000); // 5分
+    } else {
+      clearInterval(switchInterval);
+    }
+  }
+
   setInterval(updateClock, 1000);
   updateClock();
 </script>
