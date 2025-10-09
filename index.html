@@ -1,73 +1,101 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8"/>
-<title>万博ライブカメラ ズームレイアウト</title>
+<title>万博ライブカメラ セット切替（TVモードリンク対応）</title>
 <style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  html, body {
-    height: 100%;
-    overflow: hidden;
-  }
-  .controls {
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #eee;
-    font-size: 32px;
-    font-family: monospace;
-    font-weight: bold;
-  }
-  .container {
-    position: relative;
-    width: 100vw;
-    height: calc(100vh - 60px);
-  }
-  .cam {
-    position: absolute;
-    width: 50vw;
-    height: 50%;
-    border: none;
-    object-fit: cover;
-    transform: scale(1.05); /* 少し拡大表示で隙間をカット */
-    transform-origin: center center;
-  }
-  .cam1 { top: 0; left: 0; }
-  .cam2 { top: 0; left: 50vw; }
-  .cam3 { top: 50%; left: 0; }
-  .cam4 { top: 50%; left: 50vw; }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: sans-serif;
+    }
+    .controls {
+      text-align: center;
+      padding: 10px;
+      background: #eee;
+    }
+    .controls button {
+      margin: 0 5px;
+      padding: 8px 16px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .grid4 {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      width: 100vw;
+      height: calc(100vh - 50px);
+      background: #000;
+    }
+    .grid4.active {
+      display: grid;
+    }
+    .grid4 iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      object-fit: cover;
+    }
+    .linkbox a {
+      color: #0bf;
+      text-decoration: none;
+      background: #111;
+      padding: 10px 20px;
+      border-radius: 6px;
+    }
 </style>
 </head>
 <body>
-  <div class="controls">
-    <span id="clock">⏰ 00:00:00</span>
-  </div>
-  <div class="container">
-    <iframe class="cam cam1" src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=0" allowfullscreen></iframe>
-    <iframe class="cam cam2" src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1" allowfullscreen></iframe>
-    <iframe class="cam cam3" src="https://www.youtube.com/embed/3KiiDPUUlls?autoplay=1&mute=1" allowfullscreen></iframe>
-    <iframe class="cam cam4" src="https://www.youtube.com/embed/knR19va6ZCI?autoplay=1&mute=1" allowfullscreen></iframe>
-  </div>
+<div class="controls">
+  <button onclick="showSet('set1')">カメラセット1</button>
+  <button onclick="showSet('set2')">カメラセット2</button>
+  <button onclick="showSet('set3')">カメラセット3</button>
+  <span id="clock" style="margin-left: 20px; font-weight: bold; font-family: monospace;">⏰ 00:00:00</span>
+</div>
 
-  <script>
-    function updateClock() {
-      const now = new Date();
-      const yyyy = now.getFullYear();
-      const mm = String(now.getMonth() + 1).padStart(2, '0');
-      const dd = String(now.getDate()).padStart(2, '0');
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-      const s = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('clock').textContent = `📅 ${yyyy}/${mm}/${dd} ⏰ ${h}:${m}:${s}`;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-  </script>
+<div class="grid4 active" id="set1">
+  <iframe allowfullscreen src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=0"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/3KiiDPUUlls?autoplay=1&mute=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/knR19va6ZCI?autoplay=1&mute=1"></iframe>
+</div>
+
+<div class="grid4" id="set2">
+  <iframe allowfullscreen src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&mute=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&mute=1"></iframe>
+</div>
+
+<div class="grid4" id="set3">
+  <iframe allowfullscreen src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&mute=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/mrCtoiKzBxo?autoplay=1&mute=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1"></iframe>
+</div>
+
+<script>
+  function showSet(id) {
+    document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function updateClock() {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').textContent = `📅 ${yyyy}/${mm}/${dd} ⏰ ${h}:${m}:${s}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
 </body>
 </html>
