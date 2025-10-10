@@ -71,7 +71,7 @@
 <body>
 <div class="controls">
 <button onclick="showSet('set1')">カメラセット1</button>
-<button onclick="showSet('set2')">カメラセット2</button>
+<button id="toggleButton" onclick="toggleAutoSwitch()">自動切替：OFF</button><button onclick="showSet('set2')">カメラセット2</button>
 <button onclick="showSet('set3')">カメラセット3</button>
 <span id="clock">📅 0000/00/00 ⏰ 00:00:00</span>
 </div>
@@ -89,23 +89,43 @@
 <iframe allowfullscreen="" src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&amp;mute=1"></iframe>
 </div>
 <script>
-  function showSet(id) {
-    document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
+function showSet(id) {
+  document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-  function updateClock() {
-    const now = new Date();
-    const yyyy = now.getFullYear();
-    const mm = String(now.getMonth() + 1).padStart(2, '0');
-    const dd = String(now.getDate()).padStart(2, '0');
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const s = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('clock').textContent = `📅 ${yyyy}/${mm}/${dd} ⏰ ${h}:${m}:${s}`;
+function updateClock() {
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+  document.getElementById('clock').textContent = `📅 ${yyyy}/${mm}/${dd} ⏰ ${h}:${m}:${s}`;
+}
+
+let currentSet = 1;
+let autoSwitch = false;
+let switchInterval;
+
+function toggleAutoSwitch() {
+  autoSwitch = !autoSwitch;
+  const button = document.getElementById('toggleButton');
+  button.textContent = autoSwitch ? '自動切替：ON' : '自動切替：OFF';
+
+  if (autoSwitch) {
+    switchInterval = setInterval(() => {
+      currentSet = currentSet === 1 ? 2 : 1;
+      showSet('set' + currentSet);
+    }, 300000); // 5分
+  } else {
+    clearInterval(switchInterval);
   }
-  setInterval(updateClock, 1000);
-  updateClock();
+}
+
+setInterval(updateClock, 1000);
+updateClock();
 </script>
 </body>
 </html>
