@@ -1,153 +1,74 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"/>
-<title>万博ライブカメラ（中央重ねバージョン）</title>
-<style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  html, body {
-    height: 100%;
-    font-family: sans-serif;
-    background: #000;
-    overflow: hidden;
-  }
-  .controls {
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #111;
-    color: #fff;
-    padding: 10px;
-  }
-  .controls button {
-    margin: 0 5px;
-    padding: 8px 16px;
-    font-size: 1rem;
-    cursor: pointer;
-    background: #333;
-    color: #fff;
-    border: 1px solid #555;
-    border-radius: 4px;
-  }
-  .grid4 {
-    display: none;
-    position: relative;
-    width: 100vw;
-    height: calc(100vh - 60px);
-    background: #000;
-    overflow: hidden;
-  }
-  .grid4.active {
-    display: block;
-  }
-  .grid4 iframe {
-    position: absolute;
-    width: 50.3vw;
-    height: 50.3vh;
-    border: none;
-    object-fit: cover;
-    transform: scale(1.03);
-  }
-  /* 配置位置を中央で0.5px重ねる */
-  .grid4 iframe:nth-child(1) { top: 0; left: 0; }
-  .grid4 iframe:nth-child(2) { top: 0; left: calc(50vw - 0.5px); }
-  .grid4 iframe:nth-child(3) { top: calc(50vh - 0.5px); left: 0; }
-  .grid4 iframe:nth-child(4) { top: calc(50vh - 0.5px); left: calc(50vw - 0.5px); }
-
-  #clock {
-    margin-left: 20px;
-    font-weight: bold;
-    font-family: monospace;
-    font-size: 36px;
-  }
-
-#countdown {
-  margin-left: 20px;
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 36px;
-}
-</style>
+  <meta charset="utf-8">
+  <title>カメラセット1 - IFrame API 音声制御</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      height: 100%;
+      overflow: hidden;
+    }
+    .grid4 {
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 0;
+    }
+    .grid4 > div {
+      position: relative;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-<div class="controls">
-<button onclick="showSet('set1')">カメラセット1</button>
-<button onclick="showSet('set2')">カメラセット2</button>
-<button onclick="showSet('set3')">カメラセット3</button><button id="toggleButton" onclick="toggleAutoSwitch()">自動切替：OFF</button>
-<span id="clock">📅 0000/00/00 ⏰ 00:00:00</span><span id="countdown">（切替まで 300 秒）</span>
+
+<div class="grid4">
+  <div id="player"></div> <!-- 左上 (音声あり・API制御) -->
+  <div><iframe src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1" allowfullscreen></iframe></div> <!-- 右上 -->
+  <div><iframe src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1" allowfullscreen></iframe></div> <!-- 左下 -->
+  <div><iframe src="https://www.youtube.com/embed/yZsg2g_7zrA?autoplay=1&mute=1" allowfullscreen></iframe></div> <!-- 右下 -->
 </div>
-<div class="grid4 active" id="set1"><iframe allowfullscreen="" src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&amp;mute=0"></iframe><iframe allowfullscreen="" src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&amp;mute=1"></iframe><iframe allowfullscreen="" src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&amp;mute=1"></iframe><iframe allowfullscreen="" src="https://www.youtube.com/embed/knR19va6ZCI?autoplay=1&amp;mute=1"></iframe></div>
-<div class="grid4" id="set2">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&amp;mute=0"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/yZsg2g_7zrA?autoplay=1&amp;mute=1"></iframe>
-</div>
-<div class="grid4" id="set3">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/3KiiDPUUlls?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&amp;mute=1"></iframe>
-</div>
+
+<!-- YouTube IFrame API スクリプト -->
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
-function showSet(id) {
-  document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-function updateClock() {
-  const now = new Date();
-  const yyyy = now.getFullYear();
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  const dd = String(now.getDate()).padStart(2, '0');
-  const h = String(now.getHours()).padStart(2, '0');
-  const m = String(now.getMinutes()).padStart(2, '0');
-  const s = String(now.getSeconds()).padStart(2, '0');
-  document.getElementById('clock').textContent = `📅 ${yyyy}/${mm}/${dd} ⏰ ${h}:${m}:${s}`;
-}
-
-let currentSet = 1;
-let autoSwitch = false;
-let switchInterval;
-
-function toggleAutoSwitch() {
-  autoSwitch = !autoSwitch;
-  const button = document.getElementById('toggleButton');
-  button.textContent = autoSwitch ? '自動切替：ON' : '自動切替：OFF';
-
-  if (autoSwitch) {
-    switchInterval = setInterval(() => {
-      currentSet = currentSet === 1 ? 2 : 1;
-      showSet('set' + currentSet);
-    }, 300000); // 5分
-  } else {
-    clearInterval(switchInterval);
+  let player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '100%',
+      width: '100%',
+      videoId: 'SYq9lxFlqbc',
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        controls: 0,
+        rel: 0,
+        showinfo: 0
+      },
+      events: {
+        'onReady': onPlayerReady
+      }
+    });
   }
-}
 
-setInterval(updateClock, 1000);
-updateClock();
-
-
-let countdownSeconds = 300;
-let countdownInterval = setInterval(() => {
-  if (autoSwitch) {
-    countdownSeconds--;
-    if (countdownSeconds <= 0) {
-      countdownSeconds = 300;
-    }
-    document.getElementById('countdown').textContent = `（切替まで ${countdownSeconds} 秒）`;
-  } else {
-    document.getElementById('countdown').textContent = '（自動切替OFF）';
-    countdownSeconds = 300;
+  function onPlayerReady(event) {
+    event.target.mute();
+    event.target.playVideo();
+    setTimeout(() => {
+      event.target.unMute();
+    }, 3000); // 3秒後に音声ON
   }
-}, 1000);
 </script>
+
 </body>
 </html>
