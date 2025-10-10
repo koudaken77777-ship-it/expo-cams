@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"/>
-<title>万博ライブカメラ（音声修正版）</title>
+<title>万博ライブカメラ（自動再生完全対応版）</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; font-family: sans-serif; background: #000; overflow: hidden; }
@@ -81,19 +81,17 @@
 
 <script>
 function showSet(id) {
-  // 全iframeをミュート
   document.querySelectorAll('iframe').forEach(f => {
     f.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
   });
 
-  // 表示切替
   document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
   const targetSet = document.getElementById(id);
   targetSet.classList.add('active');
 
-  // 表示セットの最初の動画をアンミュート
   const firstFrame = targetSet.querySelector('iframe');
   if (firstFrame) {
+    firstFrame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
     firstFrame.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
   }
 }
@@ -122,7 +120,7 @@ function toggleAutoSwitch() {
     switchInterval = setInterval(() => {
       currentSet = currentSet === 1 ? 2 : 1;
       showSet('set' + currentSet);
-    }, 300000); // 5分
+    }, 300000);
   } else {
     clearInterval(switchInterval);
   }
@@ -131,10 +129,10 @@ function toggleAutoSwitch() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// 初期状態でセット1の最初だけ音ON
 window.onload = () => {
   const firstFrame = document.querySelector('#set1 iframe');
   if (firstFrame) {
+    firstFrame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
     firstFrame.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
   }
 };
