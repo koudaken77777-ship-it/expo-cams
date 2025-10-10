@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8"/>
-<title>万博ライブカメラ（自動再生完全対応版）</title>
+<title>万博ライブカメラ（自動切換＋カウントダウン＋時間指定固定版）</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; font-family: sans-serif; background: #000; overflow: hidden; }
@@ -46,7 +46,7 @@
   .grid4 iframe:nth-child(2) { top: 0; left: calc(50vw - 0.5px); }
   .grid4 iframe:nth-child(3) { top: calc(50vh - 0.5px); left: 0; }
   .grid4 iframe:nth-child(4) { top: calc(50vh - 0.5px); left: calc(50vw - 0.5px); }
-  #clock { margin-left: 20px; font-weight: bold; font-family: monospace; font-size: 36px; }
+  #clock, #countdown { margin-left: 20px; font-weight: bold; font-family: monospace; font-size: 36px; }
 </style>
 </head>
 <body>
@@ -54,8 +54,9 @@
   <button onclick="showSet('set1')">カメラセット1</button>
   <button onclick="showSet('set2')">カメラセット2</button>
   <button onclick="showSet('set3')">カメラセット3</button>
-  <button id="toggleButton" onclick="toggleAutoSwitch()">自動切替：OFF</button>
+  <button id="toggleButton" onclick="toggleAutoSwitch()">自動切替：ON</button>
   <span id="clock">📅 0000/00/00 ⏰ 00:00:00</span>
+  <span id="countdown">次の切替まで 300 秒</span>
 </div>
 
 <div class="grid4 active" id="set1">
@@ -80,15 +81,17 @@
 </div>
 
 <script>
+let currentSet = 1;
+let autoSwitch = true;
+let countdown = 300;
+
 function showSet(id) {
   document.querySelectorAll('iframe').forEach(f => {
     f.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
   });
-
   document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
   const targetSet = document.getElementById(id);
   targetSet.classList.add('active');
-
   const firstFrame = targetSet.querySelector('iframe');
   if (firstFrame) {
     firstFrame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
@@ -101,29 +104,35 @@ function updateClock() {
   const yyyy = now.getFullYear();
   const mm = String(now.getMonth() + 1).padStart(2, '0');
   const dd = String(now.getDate()).padStart(2, '0');
-  const h = String(now.getHours()).padStart(2, '0');
-  const m = String(now.getMinutes()).padStart(2, '0');
+  const h = now.getHours();
+  const hh = String(h).padStart(2, '0');
+  const m = now.getMinutes();
+  const mm2 = String(m).padStart(2, '0');
   const s = String(now.getSeconds()).padStart(2, '0');
-  document.getElementById('clock').textContent = `📅 ${yyyy}/${mm}/${dd} ⏰ ${h}:${m}:${s}`;
-}
+  document.getElementById('clock').textContent = `📅 ${yyyy}/${mm}/${dd} ⏰ ${hh}:${mm2}:${s}`;
 
-let currentSet = 1;
-let autoSwitch = false;
-let switchInterval;
+  // 特別時間帯チェック（18:30〜18:40）
+  if (h === 18 && m >= 30 && m < 40) {
+    showSet('set3');
+    document.getElementById('countdown').textContent = '18:30〜18:40 カメラセット3固定中';
+    return;
+  }
+
+  if (autoSwitch) {
+    countdown--;
+    if (countdown <= 0) {
+      currentSet = currentSet === 1 ? 2 : 1;
+      showSet('set' + currentSet);
+      countdown = 300;
+    }
+    document.getElementById('countdown').textContent = `次の切替まで ${countdown} 秒`;
+  }
+}
 
 function toggleAutoSwitch() {
   autoSwitch = !autoSwitch;
   const button = document.getElementById('toggleButton');
   button.textContent = autoSwitch ? '自動切替：ON' : '自動切替：OFF';
-
-  if (autoSwitch) {
-    switchInterval = setInterval(() => {
-      currentSet = currentSet === 1 ? 2 : 1;
-      showSet('set' + currentSet);
-    }, 300000);
-  } else {
-    clearInterval(switchInterval);
-  }
 }
 
 setInterval(updateClock, 1000);
