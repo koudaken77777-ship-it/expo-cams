@@ -1,21 +1,11 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
 <meta charset="utf-8"/>
-<title>万博ライブカメラ（中央重ねバージョン）</title>
+<title>万博ライブカメラ（音声修正版）</title>
 <style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  html, body {
-    height: 100%;
-    font-family: sans-serif;
-    background: #000;
-    overflow: hidden;
-  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; font-family: sans-serif; background: #000; overflow: hidden; }
   .controls {
     height: 60px;
     display: flex;
@@ -43,9 +33,7 @@
     background: #000;
     overflow: hidden;
   }
-  .grid4.active {
-    display: block;
-  }
+  .grid4.active { display: block; }
   .grid4 iframe {
     position: absolute;
     width: 50.3vw;
@@ -54,44 +42,60 @@
     object-fit: cover;
     transform: scale(1.03);
   }
-  /* 配置位置を中央で0.5px重ねる */
   .grid4 iframe:nth-child(1) { top: 0; left: 0; }
   .grid4 iframe:nth-child(2) { top: 0; left: calc(50vw - 0.5px); }
   .grid4 iframe:nth-child(3) { top: calc(50vh - 0.5px); left: 0; }
   .grid4 iframe:nth-child(4) { top: calc(50vh - 0.5px); left: calc(50vw - 0.5px); }
-
-  #clock {
-    margin-left: 20px;
-    font-weight: bold;
-    font-family: monospace;
-    font-size: 36px;
-  }
+  #clock { margin-left: 20px; font-weight: bold; font-family: monospace; font-size: 36px; }
 </style>
 </head>
 <body>
 <div class="controls">
-<button onclick="showSet('set1')">カメラセット1</button>
-<button onclick="showSet('set2')">カメラセット2</button>
-<button onclick="showSet('set3')">カメラセット3</button><button id="toggleButton" onclick="toggleAutoSwitch()">自動切替：OFF</button>
-<span id="clock">📅 0000/00/00 ⏰ 00:00:00</span>
+  <button onclick="showSet('set1')">カメラセット1</button>
+  <button onclick="showSet('set2')">カメラセット2</button>
+  <button onclick="showSet('set3')">カメラセット3</button>
+  <button id="toggleButton" onclick="toggleAutoSwitch()">自動切替：OFF</button>
+  <span id="clock">📅 0000/00/00 ⏰ 00:00:00</span>
 </div>
-<div class="grid4 active" id="set1"><iframe allowfullscreen="" src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&amp;mute=0"></iframe><iframe allowfullscreen="" src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&amp;mute=1"></iframe><iframe allowfullscreen="" src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&amp;mute=1"></iframe><iframe allowfullscreen="" src="https://www.youtube.com/embed/knR19va6ZCI?autoplay=1&amp;mute=1"></iframe></div>
+
+<div class="grid4 active" id="set1">
+  <iframe allowfullscreen src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=1&enablejsapi=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/mBI46hMnUT0?autoplay=1&mute=1&enablejsapi=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/MkAVMmJA9uQ?autoplay=1&mute=1&enablejsapi=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/knR19va6ZCI?autoplay=1&mute=1&enablejsapi=1"></iframe>
+</div>
+
 <div class="grid4" id="set2">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&amp;mute=0"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/yZsg2g_7zrA?autoplay=1&amp;mute=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=1&enablejsapi=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/GWJb1g6Tw4g?autoplay=1&mute=1&enablejsapi=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1&enablejsapi=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/yZsg2g_7zrA?autoplay=1&mute=1&enablejsapi=1"></iframe>
 </div>
+
 <div class="grid4" id="set3">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/3KiiDPUUlls?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&amp;mute=1"></iframe>
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&amp;mute=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/SYq9lxFlqbc?autoplay=1&mute=1&enablejsapi=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/3KiiDPUUlls?autoplay=1&mute=1&enablejsapi=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/ANq2xetu9es?autoplay=1&mute=1&enablejsapi=1"></iframe>
+  <iframe allowfullscreen src="https://www.youtube.com/embed/V7tfOJqEK4k?autoplay=1&mute=1&enablejsapi=1"></iframe>
 </div>
+
 <script>
 function showSet(id) {
+  // 全iframeをミュート
+  document.querySelectorAll('iframe').forEach(f => {
+    f.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+  });
+
+  // 表示切替
   document.querySelectorAll('.grid4').forEach(el => el.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const targetSet = document.getElementById(id);
+  targetSet.classList.add('active');
+
+  // 表示セットの最初の動画をアンミュート
+  const firstFrame = targetSet.querySelector('iframe');
+  if (firstFrame) {
+    firstFrame.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+  }
 }
 
 function updateClock() {
@@ -126,6 +130,14 @@ function toggleAutoSwitch() {
 
 setInterval(updateClock, 1000);
 updateClock();
+
+// 初期状態でセット1の最初だけ音ON
+window.onload = () => {
+  const firstFrame = document.querySelector('#set1 iframe');
+  if (firstFrame) {
+    firstFrame.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+  }
+};
 </script>
 </body>
 </html>
